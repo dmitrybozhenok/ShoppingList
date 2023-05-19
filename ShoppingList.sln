@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingList.Api", "ShoppingList.Api\ShoppingList.Api.csproj", "{A7CBA0CD-170A-4495-8C7B-4507C587F78D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingList.Shared", "ShoppingList.Shared\ShoppingList.Shared.csproj", "{731EAF54-14DD-45C3-8C46-339F58C2D346}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7CBA0CD-170A-4495-8C7B-4507C587F78D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7CBA0CD-170A-4495-8C7B-4507C587F78D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7CBA0CD-170A-4495-8C7B-4507C587F78D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7CBA0CD-170A-4495-8C7B-4507C587F78D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{731EAF54-14DD-45C3-8C46-339F58C2D346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{731EAF54-14DD-45C3-8C46-339F58C2D346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{731EAF54-14DD-45C3-8C46-339F58C2D346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{731EAF54-14DD-45C3-8C46-339F58C2D346}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3213EC1-D821-4B2E-80A6-7F889AA63230}
+	EndGlobalSection
+EndGlobal
