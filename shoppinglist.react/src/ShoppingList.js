@@ -19,7 +19,7 @@ export class ShoppingList extends Component{
     }
 
     refreshList(){
-        fetch(variables.API_URL+'items')
+        fetch(variables.API_URL)
         .then(response=>response.json())
         .then(data=>{
             this.setState({items:data});
@@ -35,31 +35,45 @@ export class ShoppingList extends Component{
             items
         } = this.state;
 
-        const handleCompleteClick = (event, id) => {
+        const handleCompleteClick = async (id) => {
             let items = [...this.state.items];
             let item = items.find(item => {
                 return item.id === id;
             });
             item.isComplete = !item.isComplete;
-            items.splice(items.indexOf(item), 1, item);
-            this.setState({ items });
+
+            const requestOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(item)
+            };
+            await fetch(variables.API_URL + item.id, requestOptions);
+            this.refreshList()          
           }
-        
+
+        const handleDeleteClick = async (id) => {
+            const requestOptions = {
+                method: 'DELETE'
+            };
+            await fetch(variables.API_URL + id, requestOptions);
+            this.refreshList()
+        }
+
         return(
             <div style={{ display: 'flex', justifyContent: 'center' }}>
     
-                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} alignItems="center">
+                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     {items.map(i =>
                         <ListItem
                             key={i.title}
                             secondaryAction={
-                                <IconButton edge="end" aria-label="delete">
+                                <IconButton edge="end" aria-label="delete" onClick={()=>handleDeleteClick(i.id)}>
                                     <DeleteIcon />
                                 </IconButton>
                             }
                             style={{ textDecoration : i.isComplete ? 'line-through' : 'none' }} 
                             disablePadding>
-                            <ListItemButton role={undefined} onClick={(event)=>handleCompleteClick(event, i.id)} dense>
+                            <ListItemButton role={undefined} onClick={()=>handleCompleteClick(i.id)} dense>
                                 <ListItemIcon>
                                     <Checkbox
                                         edge="start"
@@ -74,7 +88,6 @@ export class ShoppingList extends Component{
                                 <ListItemText id={i.id} primary={i.title} />
                             </ListItemButton>
                         </ListItem>
-
                     )}
                 </List>
                 
