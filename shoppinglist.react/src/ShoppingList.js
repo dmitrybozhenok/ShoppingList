@@ -1,4 +1,4 @@
-import React,{Component, useEffect, useState} from 'react';
+import React,{Component} from 'react';
 import {variables} from "./Variables.js";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -6,15 +6,20 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
+import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import CheckIcon from '@mui/icons-material/Check';
+import InputAdornment from '@mui/material/InputAdornment';
+import Stack from '@mui/material/Stack';
 
 export class ShoppingList extends Component{
     constructor(props){
         super(props);
 
         this.state={
-            items:[]
+            items:[],
+            title:""
         }
     }
 
@@ -47,9 +52,39 @@ export class ShoppingList extends Component{
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(item)
             };
-            await fetch(variables.API_URL + item.id, requestOptions);
-            this.refreshList()          
+            await fetch(variables.API_URL + item.id, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                  throw new Error();
+                }})
+                ;
+            this.refreshList();          
           }
+          
+        const getId = () => {
+            let ids = this.state.items.map(object => {
+                return object.id;
+              });
+            if (ids.length === 0)
+              return 0;
+            return Math.max(...ids)+1;
+        }
+
+        const handleSubmitClick = async () => {
+            let data = { id: getId(), title: this.state.title, isComplete: false}
+            await fetch(variables.API_URL, {
+                method: "POST", 
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data), 
+              }).then(response => {
+                if (!response.ok) {
+                  throw new Error();
+                }});
+                this.setState({title:""})
+                this.refreshList();
+        }
 
         const handleDeleteClick = async (id) => {
             const requestOptions = {
@@ -59,9 +94,29 @@ export class ShoppingList extends Component{
             this.refreshList()
         }
 
-        return(
+        return (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-    
+                <Stack>
+                <TextField
+                    value={this.state.title}
+                    label="Enter the item"
+                    onChange={(e) => {
+                        this.setState({title:e.target.value});
+                    }}
+                    onKeyDown={(e) => {
+                        if(e.key === 'Enter'){
+                            handleSubmitClick();
+                        }}}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton edge="end" color="primary" onClick={() => handleSubmitClick()}>
+                                    <CheckIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     {items.map(i =>
                         <ListItem
@@ -90,6 +145,7 @@ export class ShoppingList extends Component{
                         </ListItem>
                     )}
                 </List>
+                </Stack>
                 
             </div>
         )
