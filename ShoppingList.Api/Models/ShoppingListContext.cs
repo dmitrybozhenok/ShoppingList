@@ -10,6 +10,6 @@ namespace ShoppingList.Api.Models
         {
         }
 
-        public DbSet<Item> ShoppingListItems { get; set; } = null!;
+        public DbSet<Item> ShoppingListItems { get; set; }
     }
 }
