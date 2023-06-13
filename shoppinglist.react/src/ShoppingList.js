@@ -61,17 +61,8 @@ export class ShoppingList extends Component{
             this.refreshList();          
           }
           
-        const getId = () => {
-            let ids = this.state.items.map(object => {
-                return object.id;
-              });
-            if (ids.length === 0)
-              return 0;
-            return Math.max(...ids)+1;
-        }
-
         const handleSubmitClick = async () => {
-            let data = { id: getId(), title: this.state.title, isComplete: false}
+            let data = { title: this.state.title, isComplete: false}
             await fetch(variables.API_URL, {
                 method: "POST", 
                 headers: {
